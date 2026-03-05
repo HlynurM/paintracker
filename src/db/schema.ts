@@ -16,13 +16,23 @@
 // The schema object maps table name → index string.
 // Format: "primaryKey, index1, index2"
 export const SCHEMA_V1 = {
-  // Index `timestamp` so we can query "entries in the last 7 days" efficiently.
-  // Index `severity` so we can filter by severity range.
+  headacheEntries: 'id, timestamp, severity',
+  weatherReadings: 'id, timestamp',
+  sleepRecords: 'id, date',
+} as const
+
+// V2: weatherReadings primary key changed from `id` (WeatherData has no id field)
+// to `timestamp` (the natural unique key for a point-in-time reading).
+// headacheEntries.weather embeds a WeatherSnapshot at log time — no foreign key needed.
+// Correlation queries join by time range: find weatherReadings near headacheEntry.timestamp.
+export const SCHEMA_V2 = {
+  // `id` UUID primary key, `timestamp` index for range queries, `severity` for filters.
   headacheEntries: 'id, timestamp, severity',
 
-  // Index `timestamp` for pressure-history time-range queries.
-  weatherReadings: 'id, timestamp',
+  // `timestamp` (Unix ms) IS the primary key — each reading is unique per moment.
+  // No separate `id` field on WeatherData; timestamp is both identity and sort key.
+  weatherReadings: 'timestamp',
 
-  // Index `date` for daily lookup. The date string "2026-03-04" sorts correctly.
+  // `id` UUID primary key, `date` index for daily lookup ("2026-03-04" sorts correctly).
   sleepRecords: 'id, date',
 } as const
