@@ -9,12 +9,7 @@
 
 import type { WeatherData } from '@/types/weather'
 import { PRESSURE_TREND_WINDOW_MS } from '@/config/constants'
-import {
-  calculateDelta,
-  computeRisk,
-  computeTrend,
-  findReadingNearTime,
-} from './pressureAnalysis'
+import { calculateDelta, computeTrend } from './pressureAnalysis'
 
 // ─── Open-Meteo response shape ────────────────────────────────────────────────
 // We define only the fields we use — TypeScript's structural typing handles
