@@ -19,6 +19,9 @@ export const PRESSURE_THRESHOLDS = {
   MEDIUM_DELTA: 4,      // |delta| ≥ 4 hPa → high risk (between = medium)
 } as const
 
+// Minimum milliseconds between two headache log submissions (debounce guard)
+export const DEBOUNCE_GUARD_MS = 1000
+
 // Human-readable labels for the 1–5 severity scale
 export const SEVERITY_LABELS: Record<number, string> = {
   1: 'Mild',
