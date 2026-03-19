@@ -15,6 +15,7 @@ import { calculateDelta, computeTrend } from './pressureAnalysis'
 // We define only the fields we use — TypeScript's structural typing handles
 // the rest. The API returns much more data; we just ignore it.
 interface OpenMeteoResponse {
+  timezone: string
   current: {
     time: string
     surface_pressure: number   // hPa
@@ -84,7 +85,7 @@ function parseResponse(json: OpenMeteoResponse): WeatherData {
 
 // Fetch current weather for a latitude/longitude pair.
 // Throws if the network request fails — callers handle the error.
-export async function fetchWeather(lat: number, lon: number): Promise<WeatherData> {
+export async function fetchWeather(lat: number, lon: number): Promise<{ data: WeatherData; timezone: string }> {
   const response = await fetch(buildUrl(lat, lon))
 
   if (!response.ok) {
@@ -92,5 +93,5 @@ export async function fetchWeather(lat: number, lon: number): Promise<WeatherDat
   }
 
   const json = (await response.json()) as OpenMeteoResponse
-  return parseResponse(json)
+  return { data: parseResponse(json), timezone: json.timezone }
 }

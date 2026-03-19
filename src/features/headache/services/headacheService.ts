@@ -2,6 +2,7 @@
 // Pure functions — no React, no database calls, no side effects.
 // The hook (useHeadacheLog) calls these and handles persistence and state.
 
+import { updateHeadacheEntry as repoUpdateHeadacheEntry } from '@/db/repositories/headacheRepository'
 import type { HeadacheEntry, HeadacheFormData } from '@/types/headache'
 import type { WeatherData, WeatherSnapshot } from '@/types/weather'
 
@@ -27,4 +28,16 @@ export function createHeadacheEntry(
     triggers,
     weather,
   }
+}
+
+// Update an existing entry by id. Trims whitespace from notes.
+export async function updateHeadache(
+  id: string,
+  patch: Partial<HeadacheFormData>
+): Promise<void> {
+  const cleanedPatch: Partial<HeadacheFormData> = {
+    ...patch,
+    notes: patch.notes !== undefined ? patch.notes.trim() || undefined : undefined,
+  }
+  await repoUpdateHeadacheEntry(id, cleanedPatch)
 }

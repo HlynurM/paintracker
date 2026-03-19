@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Plus, Clock, Settings } from 'lucide-react'
+import { Home, Plus, Clock, Settings, BarChart2 } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Home',     icon: Home     },
-  { href: '/log',       label: 'Log',      icon: Plus     },
-  { href: '/history',   label: 'History',  icon: Clock    },
-  { href: '/settings',  label: 'Settings', icon: Settings },
+  { href: '/dashboard', label: 'Home',     icon: Home      },
+  { href: '/log',       label: 'Record',   icon: Plus      },
+  { href: '/history',   label: 'History',  icon: Clock     },
+  { href: '/insights',  label: 'Insights', icon: BarChart2 },
+  { href: '/settings',  label: 'Settings', icon: Settings  },
 ] as const
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -29,7 +30,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 key={href}
                 href={href}
                 className={`flex flex-1 flex-col items-center gap-1 py-3 text-xs transition-colors ${
-                  active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                  active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 <Icon className="h-5 w-5" strokeWidth={active ? 2.5 : 1.5} />

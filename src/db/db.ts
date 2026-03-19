@@ -12,12 +12,14 @@ import Dexie, { type EntityTable } from 'dexie'
 import type { HeadacheEntry } from '@/types/headache'
 import type { WeatherData } from '@/types/weather'
 import type { SleepRecord } from '@/types/sleep'
-import { DB_SCHEMA } from './schema'
+import type { RemedyEntry } from '@/types/remedy'
+import { DB_SCHEMA, DB_SCHEMA_V3 } from './schema'
 
 class PainTrackerDB extends Dexie {
   headacheEntries!: EntityTable<HeadacheEntry, 'id'>
   weatherReadings!: EntityTable<WeatherData, 'timestamp'>
   sleepRecords!: EntityTable<SleepRecord, 'id'>
+  remedies!: EntityTable<RemedyEntry, 'id'>
 
   constructor() {
     super('PainTrackerDB')
@@ -31,6 +33,9 @@ class PainTrackerDB extends Dexie {
 
     // v2 — current schema. Weather readings recreated with timestamp as PK.
     this.version(2).stores(DB_SCHEMA)
+
+    // v3 — adds remedies table for logging what helped after a headache.
+    this.version(3).stores(DB_SCHEMA_V3)
   }
 }
 

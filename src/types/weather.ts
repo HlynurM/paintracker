@@ -16,7 +16,8 @@ export interface WeatherData {
   temperature: number       // °C
   humidity: number          // % relative humidity
   windSpeed: number         // km/h
-  airQualityIndex?: number  // AQI — added later when we integrate AQ API
+  airQualityIndex?: number  // european_aqi — from Open-Meteo AQ API
+  dust?: number             // µg/m³ from Open-Meteo AQ API
   trend: PressureTrend
   trendDeltaHpa: number     // pressure now minus pressure 3h ago (can be negative)
 }

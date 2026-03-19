@@ -12,11 +12,15 @@ interface WeatherState {
   risk: PressureRisk | null
   isLoading: boolean
   error: string | null
+  geoError: string | null
   lastFetchedAt: number | null
+  locationName: string | null
 
   setCurrent: (data: WeatherData, risk: PressureRisk) => void
   setLoading: (isLoading: boolean) => void
   setError: (error: string | null) => void
+  setGeoError: (geoError: string | null) => void
+  setLocationName: (name: string | null) => void
 }
 
 export const useWeatherStore = create<WeatherState>((set) => ({
@@ -24,7 +28,9 @@ export const useWeatherStore = create<WeatherState>((set) => ({
   risk: null,
   isLoading: false,
   error: null,
+  geoError: null,
   lastFetchedAt: null,
+  locationName: null,
 
   setCurrent: (data, risk) =>
     set({ currentWeather: data, risk, lastFetchedAt: Date.now(), error: null }),
@@ -32,4 +38,8 @@ export const useWeatherStore = create<WeatherState>((set) => ({
   setLoading: (isLoading) => set({ isLoading }),
 
   setError: (error) => set({ error, isLoading: false }),
+
+  setGeoError: (geoError) => set({ geoError }),
+
+  setLocationName: (name) => set({ locationName: name }),
 }))

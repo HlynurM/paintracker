@@ -26,15 +26,15 @@ describe('HeadacheForm', () => {
     hookReturn.error = null
   })
 
-  it('slider defaults to 3, label shows Significant', () => {
-    render(<HeadacheForm />)
-    expect(screen.getByRole('slider')).toHaveValue('3')
-    expect(screen.getByText(/significant/i)).toBeInTheDocument()
+  it('renders submit button and notes field', () => {
+    render(<HeadacheForm severity={3} onSeverityChange={vi.fn()} />)
+    expect(screen.getByRole('button', { name: /record episode/i })).toBeInTheDocument()
+    expect(screen.getByPlaceholderText(/optional notes/i)).toBeInTheDocument()
   })
 
   it('submit fires logHeadache with correct severity value', async () => {
-    render(<HeadacheForm />)
-    await userEvent.click(screen.getByRole('button', { name: /log headache/i }))
+    render(<HeadacheForm severity={3} onSeverityChange={vi.fn()} />)
+    await userEvent.click(screen.getByRole('button', { name: /record episode/i }))
 
     await waitFor(() => {
       expect(mockLogHeadache).toHaveBeenCalledWith(
@@ -43,37 +43,47 @@ describe('HeadacheForm', () => {
     })
   })
 
-  it('after successful submit — severity resets to 3, notes cleared', async () => {
-    render(<HeadacheForm />)
+  it('submit fires logHeadache with the severity passed as prop', async () => {
+    render(<HeadacheForm severity={5} onSeverityChange={vi.fn()} />)
+    await userEvent.click(screen.getByRole('button', { name: /record episode/i }))
+
+    await waitFor(() => {
+      expect(mockLogHeadache).toHaveBeenCalledWith(
+        expect.objectContaining({ severity: 5 })
+      )
+    })
+  })
+
+  it('after successful submit — notes cleared', async () => {
+    render(<HeadacheForm severity={3} onSeverityChange={vi.fn()} />)
     const notesField = screen.getByPlaceholderText(/optional notes/i)
     await userEvent.type(notesField, 'bad day')
-    await userEvent.click(screen.getByRole('button', { name: /log headache/i }))
+    await userEvent.click(screen.getByRole('button', { name: /record episode/i }))
 
     await waitFor(() => {
       expect(notesField).toHaveValue('')
-      expect(screen.getByRole('slider')).toHaveValue('3')
     })
   })
 
   it('submit button is disabled when isSubmitting is true', () => {
     hookReturn.isSubmitting = true
-    render(<HeadacheForm />)
+    render(<HeadacheForm severity={3} onSeverityChange={vi.fn()} />)
     expect(screen.getByRole('button', { name: /saving/i })).toBeDisabled()
   })
 
   it('error renders in role="alert" when error is set', () => {
     hookReturn.error = 'Something went wrong'
-    render(<HeadacheForm />)
+    render(<HeadacheForm severity={3} onSeverityChange={vi.fn()} />)
     expect(screen.getByRole('alert')).toHaveTextContent('Something went wrong')
   })
 
   it('form NOT reset when logHeadache rejects — notes value preserved', async () => {
     mockLogHeadache.mockRejectedValue(new Error('DB error'))
-    render(<HeadacheForm />)
+    render(<HeadacheForm severity={3} onSeverityChange={vi.fn()} />)
 
     const notesField = screen.getByPlaceholderText(/optional notes/i)
     await userEvent.type(notesField, 'preserve me')
-    await userEvent.click(screen.getByRole('button', { name: /log headache/i }))
+    await userEvent.click(screen.getByRole('button', { name: /record episode/i }))
 
     await waitFor(() => {
       expect(mockLogHeadache).toHaveBeenCalled()

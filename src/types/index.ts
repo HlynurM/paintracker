@@ -5,3 +5,17 @@
 export type { HeadacheEntry, HeadacheFormData, HeadacheSeverity, TriggerTag } from './headache'
 export type { WeatherData, WeatherSnapshot, PressureTrend, PressureRisk } from './weather'
 export type { SleepRecord, SleepSource } from './sleep'
+export type {
+  PressureBucket,
+  WeatherFactorCorrelation,
+  CorrelationResult,
+  OutlierSummary,
+  ConfidenceBreakdown,
+  ConfidenceLabel,
+  ConfidenceScore,
+  RiskFactor,
+  RiskLevel,
+  PredictionResult,
+  NotificationPayload,
+} from './prediction'
+export type { RemedyTag, RemedyEntry, RemedyFormData } from './remedy'

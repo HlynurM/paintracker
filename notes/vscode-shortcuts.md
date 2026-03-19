@@ -27,3 +27,12 @@ claude --file src/lib/db.ts "Explain the schema here"
 # Allow Claude to make file edits (be deliberate with this)
 # Inside the session, just describe what you want:
 # "Add a TypeScript type for HeadacheEntry to src/types/index.ts"
+
+
+Key IntelliSense Shortcuts
+Action	Windows/Linux Shortcut	macOS Shortcut
+Trigger IntelliSense	Ctrl + Space	Control + Space
+Show Parameter Info	Ctrl + Shift + Space	Control + Shift + Space
+Show Quick Info	Ctrl + K, Ctrl + I	Control + K, Control + I
+List Members	Ctrl + J	Control + J
+Switch between completion modes	Ctrl + Alt + Space	Control + Option + Space

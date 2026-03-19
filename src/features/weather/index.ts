@@ -4,4 +4,7 @@
 
 export { useWeather } from './hooks/useWeather'
 export { useWeatherStore } from './store/weatherStore'
+export { default as WeatherCard } from './components/WeatherCard'
+export { default as WeatherWidget } from './components/WeatherWidget'
+export { default as WeatherBadge } from './components/WeatherBadge'
 export type { WeatherData, WeatherSnapshot, PressureTrend, PressureRisk } from '@/types/weather'

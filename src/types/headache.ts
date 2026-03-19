@@ -7,9 +7,9 @@ import type { WeatherSnapshot } from './weather'
 export type HeadacheSeverity = 1 | 2 | 3 | 4 | 5
 
 // Tags the user can apply to explain a potential trigger.
+// Note: pressure-drop and pressure-rise are NOT user tags — the weather snapshot
+// (trendDeltaHpa, trend) already encodes pressure context automatically at log time.
 export type TriggerTag =
-  | 'pressure-drop'
-  | 'pressure-rise'
   | 'poor-sleep'
   | 'dehydration'
   | 'screen-time'

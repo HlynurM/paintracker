@@ -22,3 +22,9 @@ export const DB_SCHEMA = {
   // UUID primary key; query by ISO date string (lexicographic sort works for YYYY-MM-DD).
   sleepRecords: 'id, date',
 } as const
+
+// v3: adds remedy entries linked to headache entries via headacheEntryId FK.
+export const DB_SCHEMA_V3 = {
+  ...DB_SCHEMA,
+  remedies: 'id, headacheEntryId, timestamp',
+} as const

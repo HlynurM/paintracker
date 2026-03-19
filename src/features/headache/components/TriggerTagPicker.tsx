@@ -5,8 +5,6 @@
 import type { TriggerTag } from '@/types/headache'
 
 export const ALL_TRIGGER_TAGS: TriggerTag[] = [
-  'pressure-drop',
-  'pressure-rise',
   'poor-sleep',
   'dehydration',
   'screen-time',
@@ -15,8 +13,6 @@ export const ALL_TRIGGER_TAGS: TriggerTag[] = [
 ]
 
 const TAG_LABELS: Record<TriggerTag, string> = {
-  'pressure-drop': 'Pressure Drop',
-  'pressure-rise': 'Pressure Rise',
   'poor-sleep': 'Poor Sleep',
   'dehydration': 'Dehydration',
   'screen-time': 'Screen Time',
