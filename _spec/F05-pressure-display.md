@@ -1,27 +1,32 @@
-# F05 — Pressure Trend Display
+# F05 — Full Weather Display + Air Quality + Unit Settings + Geolocation
 
-> **Status:** planned
-> **Branch:** spec/f05-pressure-display
+> **Status:** in-progress
+> **Branch:** feat/f05-weather-display
 > **Created:** 2026-03-17
+> **Updated:** 2026-03-18
 > **Depends on:** F02
 
 ---
 
 ## Purpose
 
-Show the current barometric pressure, trend direction, delta, and risk level in a compact, reusable widget. Gives the user an immediate read on current conditions. Used on the dashboard and anywhere weather context is relevant.
+Show a full weather card on the dashboard (pressure, temperature, humidity, wind, AQI, dust) and a compact weather badge on the Record Episode page. Includes unit preference settings (°C/°F, km/h/mph), browser geolocation with Reykjavik fallback, and a parallel air quality fetch from Open-Meteo.
 
 ---
 
 ## Acceptance Criteria
 
-- [ ] The current barometric pressure is displayed in hPa.
-- [ ] A directional arrow shows whether pressure is rising, stable, or falling.
-- [ ] The pressure change over the last 3 hours is shown as a signed number (e.g. −3.2 hPa / 3h).
-- [ ] The widget is colour-coded by risk level: green for low, amber for medium, red for high.
-- [ ] A loading skeleton is shown while weather data is being fetched — no blank content flash.
-- [ ] An error message with a retry button appears if the weather fetch fails.
-- [ ] If stale data is available when an error occurs, the last known values remain visible alongside the error.
+- [ ] Dashboard shows full WeatherCard: pressure + trend, temperature, humidity, wind speed, and AQI/dust row when available.
+- [ ] Record Episode page shows compact WeatherBadge above the form.
+- [ ] Temperature and wind speed respect unit preference (°C/°F, km/h/mph) from Settings.
+- [ ] Settings page has toggle rows for temperature and wind speed units; preferences persist across reload.
+- [ ] Browser geolocation is used for first fetch; if denied, Reykjavik fallback is used and a soft "Using approximate location" chip appears.
+- [ ] Air quality (european_aqi + dust) is fetched in parallel with weather; AQ failure does not block weather display.
+- [ ] Risk badge is colour-coded: green for low, amber for medium, red for high.
+- [ ] Loading skeleton shown during initial fetch; no blank content flash.
+- [ ] Error message + retry button shown if weather fetch fails; stale data remains visible if available.
+- [ ] Nav tab "Log" renamed to "Record"; page heading "Log Headache" renamed to "Record Episode".
+- [ ] HeadacheForm field order: Severity → Triggers → Notes.
 
 ---
 
@@ -75,7 +80,8 @@ Wraps `PressureCard` and reads from `useWeather` internally — pages import `We
 ## Out of Scope
 
 - Historical pressure chart or graph.
-- AQI display — field typed but deferred.
+- Weather condition artwork (requires `weather_code`).
+- AQI thresholds as headache risk signals (display only for now).
 - Manual pressure override by user.
 - Notification or alert triggered by risk level change (F07).
 
